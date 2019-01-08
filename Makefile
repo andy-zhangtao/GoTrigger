@@ -10,6 +10,6 @@ run: build
 	bin/$(name)
 
 release: *.go *.md
-	GOOS=linux GOARCH=amd64 go build -ldflags "-X main._BUILD_=$(shell date +%Y%m%d-%H%M%S) -X main._VERSION_=$(version)" -a -o bin/$(name)
+	docker run -it --rm --name golang -v $$PWD:/go/src/github.com/andy-zhangtao/GoTrigger vikings/golang-onbuild /go/src/github.com/andy-zhangtao/GoTrigger gotrigger
 	docker build -t vikings/$(name) .
 	docker push vikings/$(name)

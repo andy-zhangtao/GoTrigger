@@ -15,3 +15,8 @@ const (
 	DB_TRIGGER      = "go_trigger"
 	DB_TRIGGER_TYPE = "go_trigger_type"
 )
+
+const (
+	NOTICE_HTTP = iota
+	NOTICE_NSQ
+)
