@@ -7,7 +7,6 @@ import (
 
 func SaveTrigger(trigger model.Trigger) error {
 	t := zt.Ztime{}
-
 	trigger.CreateTime, _ = t.Now().Format("YYYYMMDD hh:mm:ss")
 
 	return bw.Save(trigger)

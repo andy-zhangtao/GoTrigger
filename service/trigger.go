@@ -3,9 +3,11 @@ package service
 import (
 	"github.com/andy-zhangtao/GoTrigger/db"
 	"github.com/andy-zhangtao/GoTrigger/model"
+	"github.com/globalsign/mgo/bson"
 )
 
 func AddNewTrigger(trigger model.Trigger) error {
+	trigger.ID = bson.NewObjectId()
 	return db.SaveTrigger(trigger)
 }
 
