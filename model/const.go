@@ -12,11 +12,14 @@ const (
 )
 
 const (
-	DB_TRIGGER      = "go_trigger"
-	DB_TRIGGER_TYPE = "go_trigger_type"
+	DB_TRIGGER        = "go_trigger"
+	DB_TRIGGER_TYPE   = "go_trigger_type"
+	DB_TRIGGER_PLUGIN = "go_trigger_plugin"
 )
 
 const (
 	NOTICE_HTTP = iota
 	NOTICE_NSQ
 )
+
+const HttpPluginAddr = "172.21.123.190:50000"

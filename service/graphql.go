@@ -97,13 +97,15 @@ func executeDevExQuery(query map[string]interface{}, schema graphql.Schema, args
 var rootDevexQuery = graphql.NewObject(graphql.ObjectConfig{
 	Name: "RootQuery",
 	Fields: graphql.Fields{
-		"queryTrigger": QueryTrigger,
+		"queryTrigger":       QueryTrigger,
+		"queryTriggerPlugin": QueryTriggerPlugin,
 	},
 })
 
 var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 	Name: "RootMutation",
 	Fields: graphql.Fields{
-		"addTriger": AddTrigger,
+		"addTrigger":       AddTrigger,
+		"addTriggerPlugin": AddTriggerPlugin,
 	},
 })

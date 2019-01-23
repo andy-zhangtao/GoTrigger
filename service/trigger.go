@@ -4,19 +4,21 @@ import (
 	"github.com/andy-zhangtao/GoTrigger/db"
 	"github.com/andy-zhangtao/GoTrigger/model"
 	"github.com/globalsign/mgo/bson"
+	"github.com/sirupsen/logrus"
 )
 
-func AddNewTrigger(trigger model.Trigger) error {
+func AddNewTrigger(trigger model.Trigger) (model.Trigger, error) {
 	trigger.ID = bson.NewObjectId()
-	return db.SaveTrigger(trigger)
+	return trigger, db.SaveTrigger(trigger)
 }
 
-func UpdateTriggerNextTime(name string, next uint64) error {
+func UpdateTriggerNextTime(name string, next int64) error {
 	t := model.Trigger{
 		Name:     name,
 		NextTime: next,
 	}
 
+	logrus.WithFields(logrus.Fields{"name": t.Name, "nextime": t.NextTime}).Info(model.MODULENAME)
 	return db.UpdateTrigger(&t, []string{
 		"name",
 	})

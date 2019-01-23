@@ -85,16 +85,6 @@ var Trigger = graphql.NewObject(graphql.ObjectConfig{
 		//		return nil, nil
 		//	},
 		//},
-		//"typeID": &graphql.Field{
-		//	Type: graphql.String,
-		//	Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-		//		if t, ok := p.Source.(model.Trigger); ok {
-		//			return t.TypeID.Hex(), nil
-		//		}
-		//
-		//		return nil, nil
-		//	},
-		//},
 		"create_time": &graphql.Field{
 			Type: graphql.String,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
@@ -102,6 +92,39 @@ var Trigger = graphql.NewObject(graphql.ObjectConfig{
 					return t.CreateTime, nil
 				}
 
+				return nil, nil
+			},
+		},
+	},
+})
+
+var TriggerPlugin = graphql.NewObject(graphql.ObjectConfig{
+	Name: "triggerplugin",
+	Fields: graphql.Fields{
+		"pid": &graphql.Field{
+			Type: graphql.Int,
+			Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
+				if t, ok := p.Source.(model.TriggerPlugin); ok {
+					return t.PID, nil
+				}
+				return nil, nil
+			},
+		},
+		"name": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
+				if t, ok := p.Source.(model.TriggerPlugin); ok {
+					return t.Name, nil
+				}
+				return nil, nil
+			},
+		},
+		"desc": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
+				if t, ok := p.Source.(model.TriggerPlugin); ok {
+					return t.Desc, nil
+				}
 				return nil, nil
 			},
 		},

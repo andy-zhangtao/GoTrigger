@@ -13,6 +13,8 @@ func SaveTrigger(trigger model.Trigger) error {
 }
 
 func UpdateTrigger(tPtr *model.Trigger, filter []string) (err error) {
+	t := zt.Ztime{}
+	tPtr.UpdateTime, _ = t.Now().Format("YYYYMMDD hh:mm:ss")
 	_, err = bw.Update(tPtr, filter)
 
 	return

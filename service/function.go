@@ -36,6 +36,48 @@ var QueryTrigger = &graphql.Field{
 	},
 }
 
+var QueryTriggerPlugin = &graphql.Field{
+	Type:        TriggerPlugin,
+	Description: "query trigger plugin info",
+	Args: graphql.FieldConfigArgument{
+		"id": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.Int),
+		},
+	},
+	Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
+		id, _ := p.Args["id"].(int)
+
+		return FindSpecifyPlugin(id)
+	},
+}
+
+var AddTriggerPlugin = &graphql.Field{
+	Type:        TriggerPlugin,
+	Description: "register new trigger plugin",
+	Args: graphql.FieldConfigArgument{
+		"name": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+		"id": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.Int),
+		},
+		"desc": &graphql.ArgumentConfig{
+			Type: graphql.String,
+		},
+	},
+	Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
+		name, _ := p.Args["name"].(string)
+		id, _ := p.Args["id"].(int)
+		desc, _ := p.Args["desc"].(string)
+
+		return AddNewPlugin(model.TriggerPlugin{
+			Name: name,
+			PID:  id,
+			Desc: desc,
+		})
+	},
+}
+
 var AddTrigger = &graphql.Field{
 	Type:        Trigger,
 	Description: "register new trigger",
@@ -52,6 +94,12 @@ var AddTrigger = &graphql.Field{
 		"parallel": &graphql.ArgumentConfig{
 			Type: graphql.Int,
 		},
+		"kind": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.Int),
+		},
+		"endpoint": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
 	},
 	Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 
@@ -60,9 +108,16 @@ var AddTrigger = &graphql.Field{
 		interval, _ := p.Args["interval"].(string)
 		parallel, _ := p.Args["parallel"].(int)
 
+		kind, _ := p.Args["kind"].(int)
+		endpoint, _ := p.Args["endpoint"].(string)
+
 		if parallel == 0 {
 			parallel = 1
 		}
+
+		name = strings.TrimSpace(name)
+		interval = strings.TrimSpace(interval)
+		endpoint = strings.TrimSpace(endpoint)
 
 		intervalTime, err := util.ParseInterval(interval)
 		if err != nil {
@@ -74,9 +129,18 @@ var AddTrigger = &graphql.Field{
 			Enable:   enable,
 			Parallel: parallel,
 			Interval: intervalTime,
-			NextTime: uint64(util.NextTime(intervalTime)),
+			NextTime: int64(util.NextTime(intervalTime)),
+			Type: model.TriggerType{
+				Kind:     kind,
+				Endpoint: endpoint,
+			},
 		}
 
-		return t, AddNewTrigger(t)
+		if t, err = AddNewTrigger(t); err != nil {
+			return t, err
+		}
+
+		util.GetTriggerChan() <- t.ID
+		return t, nil
 	},
 }
