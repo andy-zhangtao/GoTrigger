@@ -61,6 +61,9 @@ var AddTriggerPlugin = &graphql.Field{
 		"id": &graphql.ArgumentConfig{
 			Type: graphql.NewNonNull(graphql.Int),
 		},
+		"endpoint": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
 		"desc": &graphql.ArgumentConfig{
 			Type: graphql.String,
 		},
@@ -69,11 +72,13 @@ var AddTriggerPlugin = &graphql.Field{
 		name, _ := p.Args["name"].(string)
 		id, _ := p.Args["id"].(int)
 		desc, _ := p.Args["desc"].(string)
+		endpoint, _ := p.Args["endpoint"].(string)
 
 		return AddNewPlugin(model.TriggerPlugin{
-			Name: name,
-			PID:  id,
-			Desc: desc,
+			Name:     name,
+			PID:      id,
+			Endpoint: endpoint,
+			Desc:     desc,
 		})
 	},
 }

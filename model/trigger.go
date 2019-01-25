@@ -28,8 +28,9 @@ type TriggerType struct {
 }
 
 type TriggerPlugin struct {
-	ID   bson.ObjectId `json:"_id" bson:"_id" bw:"_id"`
-	Name string        `json:"name" bson:"name" bw:"name"`
-	PID  int           `json:"pid" bson:"pid" bw:"pid"`
-	Desc string        `json:"desc" bson:"desc"`
+	ID       bson.ObjectId `json:"_id" bson:"_id" bw:"_id"`
+	Name     string        `json:"name" bson:"name" bw:"name"`
+	Endpoint string        `json:"endpoint" bson:"endpoint"`
+	PID      int           `json:"pid" bson:"pid" bw:"pid"`
+	Desc     string        `json:"desc" bson:"desc"`
 }

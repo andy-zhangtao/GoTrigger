@@ -3,6 +3,7 @@ package trigger
 import (
 	"context"
 	"errors"
+	"github.com/andy-zhangtao/GoTrigger/db"
 	"github.com/andy-zhangtao/GoTrigger/model"
 	pb "github.com/andy-zhangtao/GoTrigger/pb/v1/plugin"
 	"github.com/sirupsen/logrus"
@@ -20,20 +21,24 @@ func execut(t *model.Trigger) (err error) {
 		return
 	}
 
-	switch t.Type.Kind {
-	case model.NOTICE_HTTP:
-		if _, err := invokeHttp(t); err != nil {
-			return err
-		}
-
-		return nil
+	ptr := model.TriggerPlugin{
+		PID: t.Type.Kind,
 	}
-	return
+
+	if err := db.FindSpecifyTriggerPlugin(&ptr); err != nil {
+		return err
+	}
+
+	if _, err := invokeHttp(t, ptr); err != nil {
+		return err
+	}
+
+	return nil
 }
 
-func invokeHttp(t *model.Trigger) (succ bool, err error) {
+func invokeHttp(t *model.Trigger, ptr model.TriggerPlugin) (succ bool, err error) {
 
-	conn, err := grpc.Dial(model.HttpPluginAddr, grpc.WithInsecure())
+	conn, err := grpc.Dial(ptr.Endpoint, grpc.WithInsecure())
 	if err != nil {
 		return false, err
 	}
