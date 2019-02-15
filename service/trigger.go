@@ -12,6 +12,12 @@ func AddNewTrigger(trigger model.Trigger) (model.Trigger, error) {
 	return trigger, db.SaveTrigger(trigger)
 }
 
+func DeleTrigger(name string) error {
+	return db.DeleteTrigger(&model.Trigger{
+		Name: name,
+	}, []string{"name"})
+}
+
 func UpdateTriggerNextTime(name string, next int64) error {
 	t := model.Trigger{
 		Name:     name,

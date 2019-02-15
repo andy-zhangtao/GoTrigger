@@ -164,6 +164,21 @@ var DelTriggerPlugin = &graphql.Field{
 	},
 }
 
+var DelTrigger = &graphql.Field{
+	Type:        graphql.String,
+	Description:"delete specify trigger",
+	Args:graphql.FieldConfigArgument{
+		"name": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+	},
+	Resolve: func(p graphql.ResolveParams) (interface{}, error){
+		name, _ := p.Args["name"].(string)
+
+		return "ok",DeleTrigger(name)
+	},
+}
+
 var AddTrigger = &graphql.Field{
 	Type:        Trigger,
 	Description: "register new trigger",
