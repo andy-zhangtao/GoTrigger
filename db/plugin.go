@@ -7,7 +7,7 @@ func SaveTriggerPlugin(p model.TriggerPlugin) error {
 }
 
 func DeleteTriggerPlugin(pPtr *model.TriggerPlugin) (err error) {
-	_, err = bw.DeleteAll(pPtr)
+	_, err = bw.Delete(pPtr, []string{"name"})
 	return
 }
 
@@ -15,7 +15,7 @@ func FindSpecifyTriggerPlugin(pPtr *model.TriggerPlugin) (err error) {
 	return bw.FindOne(pPtr)
 }
 
-func FindSpecifyAllTriggerPlugin(pPtr *model.TriggerPlugin)(allPlugin []model.TriggerPlugin, err error){
-	err = bw.FindAll(pPtr,&allPlugin)
+func FindSpecifyAllTriggerPlugin(pPtr *model.TriggerPlugin) (allPlugin []model.TriggerPlugin, err error) {
+	err = bw.FindAll(pPtr, &allPlugin)
 	return
 }

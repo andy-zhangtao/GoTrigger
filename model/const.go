@@ -15,6 +15,9 @@ const (
 	DB_TRIGGER        = "go_trigger"
 	DB_TRIGGER_TYPE   = "go_trigger_type"
 	DB_TRIGGER_PLUGIN = "go_trigger_plugin"
+	DB_PLUGIN_KIND    = "go_trigger_plugin_kind"
+	DB_SEQUENCE       = "go_trigger_sequence"
+	DB_TRIGGER_JNL    = "go_trigger_jnl"
 )
 
 const (
@@ -22,4 +25,8 @@ const (
 	NOTICE_NSQ
 )
 
-const HttpPluginAddr = "172.21.123.190:50000"
+const (
+	STATUS_INVOKE_SUCC = iota
+	STATUS_INVOKE_FAILED
+)
+

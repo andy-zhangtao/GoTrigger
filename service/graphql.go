@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/andy-zhangtao/GoTrigger/model"
 	"github.com/gorilla/mux"
 	"github.com/graphql-go/graphql"
@@ -35,7 +34,7 @@ func GraphQL() {
 func handleDevExGraphQL(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
-	fmt.Println(r.Header)
+	//fmt.Println(r.Header)
 	ip := strings.Split(r.RemoteAddr, ":")[0]
 	args := make(map[string]interface{})
 
@@ -99,6 +98,8 @@ var rootDevexQuery = graphql.NewObject(graphql.ObjectConfig{
 	Fields: graphql.Fields{
 		"queryTrigger":       QueryTrigger,
 		"queryTriggerPlugin": QueryTriggerPlugin,
+		"queryPluginKind":    QueryPluginKind,
+		"queryTriggerJnl":    QueryTriggerJnl,
 	},
 })
 
@@ -107,5 +108,7 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 	Fields: graphql.Fields{
 		"addTrigger":       AddTrigger,
 		"addTriggerPlugin": AddTriggerPlugin,
+		"addPluginKind":    AddPluginKind,
+		"delTriggerPlugin": DelTriggerPlugin,
 	},
 })

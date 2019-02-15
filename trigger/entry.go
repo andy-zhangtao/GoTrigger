@@ -9,11 +9,16 @@ import (
 	"time"
 )
 
+const tick = 3
+
 func QueryTrigger() error {
 
 	var triggers []*model.Trigger
 
-	_triggers, err := db.FindSpecifyAllTrigger(new(model.Trigger))
+	t := model.Trigger{
+		Enable: true,
+	}
+	_triggers, err := db.FindSpecifyAllTrigger(&t)
 	if err != nil {
 		logrus.WithFields(logrus.Fields{"Query-All-Trigger-Error": err}).Error(model.MODULENAME)
 		return err
@@ -24,13 +29,13 @@ func QueryTrigger() error {
 		triggers = append(triggers, &t)
 	}
 
-	var ticker = time.NewTicker(time.Second)
+	var ticker = time.NewTicker(tick * time.Second)
 	now := time.Now().Unix()
 
 	for {
 		select {
 		case <-ticker.C:
-			now ++
+			now += tick
 			for _, t := range triggers {
 				if now >= t.NextTime {
 					t.NextTime = now + int64(t.Interval)

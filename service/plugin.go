@@ -22,8 +22,8 @@ func FindAllPlugin() (plugins []model.TriggerPlugin, err error) {
 	return db.FindSpecifyAllTriggerPlugin(new(model.TriggerPlugin))
 }
 
-func DeleteSpecifyPlugin(pid int) (err error) {
+func DeleteSpecifyPlugin(name string) (err error) {
 	return db.DeleteTriggerPlugin(&model.TriggerPlugin{
-		PID: pid,
+		Name: name,
 	})
 }

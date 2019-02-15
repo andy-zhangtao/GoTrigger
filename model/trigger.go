@@ -5,6 +5,7 @@ import "github.com/globalsign/mgo/bson"
 type Trigger struct {
 	ID         bson.ObjectId `json:"_id" bson:"_id" bw:"_id"`
 	Name       string        `json:"name" bson:"name" bw:"name"`
+	Desc       string        `json:"desc" bson:"desc"`
 	Async      bool          `json:"async" bson:"async"`
 	Enable     bool          `json:"enable" bson:"enable"`
 	Interval   int           `json:"interval" bson:"interval"`
@@ -33,4 +34,16 @@ type TriggerPlugin struct {
 	Endpoint string        `json:"endpoint" bson:"endpoint"`
 	PID      int           `json:"pid" bson:"pid" bw:"pid"`
 	Desc     string        `json:"desc" bson:"desc"`
+}
+
+type PluginType struct {
+	ID   bson.ObjectId `json:"_id" bson:"_id" bw:"_id"`
+	Name string        `json:"name" bson:"name"`
+	PID  int           `json:"pid" bson:"pid"`
+	Desc string        `json:"desc" bson:"desc"`
+}
+
+type Sequence struct {
+	Desc string `json:"desc" bson:"desc"`
+	SID  int    `json:"sid" bson:"sid"`
 }

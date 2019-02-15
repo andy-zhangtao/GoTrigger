@@ -23,7 +23,7 @@ func init() {
 
 	logrus.WithFields(logrus.Fields{"Connect Blank Widow Success BW Version": bw.Version()}).Info(model.MODULENAME)
 
-	bw = bw.Map(model.Trigger{}, model.DB_TRIGGER).Map(model.TriggerType{}, model.DB_TRIGGER_TYPE).Map(model.TriggerPlugin{}, model.DB_TRIGGER_PLUGIN)
+	bw = bw.Map(model.Trigger{}, model.DB_TRIGGER).Map(model.TriggerType{}, model.DB_TRIGGER_TYPE).Map(model.TriggerPlugin{}, model.DB_TRIGGER_PLUGIN).Map(model.PluginType{}, model.DB_PLUGIN_KIND).Map(model.Sequence{}, model.DB_SEQUENCE).Map(model.TriggerJnl{}, model.DB_TRIGGER_JNL)
 
 	if err := bw.CheckIndex(new(model.Trigger)).CheckIndex(new(model.TriggerPlugin)).Error(); err != nil {
 		logrus.WithFields(logrus.Fields{"CheckIndexError": err}).Error(model.MODULENAME)

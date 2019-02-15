@@ -6,6 +6,7 @@ import (
 	"github.com/andy-zhangtao/GoTrigger/db"
 	"github.com/andy-zhangtao/GoTrigger/model"
 	pb "github.com/andy-zhangtao/GoTrigger/pb/v1/plugin"
+	"github.com/andy-zhangtao/GoTrigger/service"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
@@ -15,6 +16,20 @@ import (
 //If it is a sync type, exeut will waiting for finish. If it is a async, execut will quit.
 func execut(t *model.Trigger) (err error) {
 	logrus.WithFields(logrus.Fields{"name": t.Name, "parallel": t.Parallel, "nextime": t.NextTime, "async": t.Async}).Info(model.MODULENAME)
+
+	status := model.STATUS_INVOKE_FAILED
+
+	defer func() {
+		if err != nil{
+			if err := service.SaveTriggerJnl(*t, status, err.Error()); err != nil {
+				logrus.WithFields(logrus.Fields{"insert-jnl": t, "status": status, "err": err}).Error(model.MODULENAME)
+			}
+		}else{
+			if err := service.SaveTriggerJnl(*t, status,""); err != nil {
+				logrus.WithFields(logrus.Fields{"insert-jnl": t, "status": status, "err": err}).Error(model.MODULENAME)
+			}
+		}
+	}()
 
 	if t.Type.Endpoint == "" {
 		err = errors.New("GT must has A trigger plugin. ")
@@ -33,6 +48,7 @@ func execut(t *model.Trigger) (err error) {
 		return err
 	}
 
+	status = model.STATUS_INVOKE_SUCC
 	return nil
 }
 
