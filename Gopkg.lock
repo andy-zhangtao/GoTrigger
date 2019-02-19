@@ -3,22 +3,22 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:b34110424e50b6be40b77b8b89e776b0e393feb930972c10fff99a29b77b0f6d"
+  digest = "1:9ed4d1d8fcf2f660968ba13fa78a54740965eeb08fbefeb75b9495a8f4dd14fc"
   name = "github.com/andy-zhangtao/bwidow"
   packages = ["."]
   pruneopts = "UT"
-  revision = "dfcd852ecc89e513dc3c3ffb186bc7d9a464087c"
+  revision = "d667ba3af80afcb7be985fba2e7d890166909fde"
 
 [[projects]]
   branch = "master"
-  digest = "1:40cd8055acfe81681510a42f3489e94dc1459f705dbac086031f9673f56e1441"
+  digest = "1:a22217b2af13cf408a7f6b8af17806ac9d14dd1daeeb13f507d18a1601e94a57"
   name = "github.com/andy-zhangtao/gogather"
   packages = [
     "time",
     "zReflect",
   ]
   pruneopts = "UT"
-  revision = "2f90705893fcefbf74156caf71c7c614da2f5cbe"
+  revision = "6be846ebaaa2f8635c625681c5131f2827d00932"
 
 [[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
@@ -44,7 +44,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:3638dd58eb7a77bb1ed3f57e81f46ce636f0325f68e0900bb9170f71df93b9bc"
+  digest = "1:239c4c7fd2159585454003d9be7207167970194216193a8a210b8d29576f19c9"
   name = "github.com/golang/protobuf"
   packages = [
     "proto",
@@ -54,23 +54,15 @@
     "ptypes/timestamp",
   ]
   pruneopts = "UT"
-  revision = "347cf4a86c1cb8d262994d8ef5924d4576c5b331"
+  revision = "c823c79ea1570fb5ff454033735a8e68575d1d0f"
 
 [[projects]]
-  digest = "1:c79fb010be38a59d657c48c6ba1d003a8aa651fa56b579d959d74573b7dff8e1"
-  name = "github.com/gorilla/context"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "08b5f424b9271eedf6f9f0ce86cb9396ed337a42"
-  version = "v1.1.1"
-
-[[projects]]
-  digest = "1:e73f5b0152105f18bc131fba127d9949305c8693f8a762588a82a48f61756f5f"
+  digest = "1:ca59b1175189b3f0e9f1793d2c350114be36eaabbe5b9f554b35edee1de50aea"
   name = "github.com/gorilla/mux"
   packages = ["."]
   pruneopts = "UT"
-  revision = "e3702bed27f0d39777b0b37b664b6280e8ef8fbf"
-  version = "v1.6.2"
+  revision = "a7962380ca08b5a188038c69871b8d3fbdf31e89"
+  version = "v1.7.0"
 
 [[projects]]
   digest = "1:b1b6d04c3d4288719efc24ae4e52d24808530f5d28b1a9e4897ea5ad047b6124"
@@ -99,6 +91,17 @@
   pruneopts = "UT"
   revision = "5c8c8bd35d3832f5d134ae1e1e375b69a4d25242"
   version = "v1.0.1"
+
+[[projects]]
+  digest = "1:8ef506fc2bb9ced9b151dafa592d4046063d744c646c1bbe801982ce87e4bc24"
+  name = "github.com/lib/pq"
+  packages = [
+    ".",
+    "oid",
+  ]
+  pruneopts = "UT"
+  revision = "4ded0e9383f75c197b3a2aaa6d590ac52df6fd79"
+  version = "v1.0.0"
 
 [[projects]]
   digest = "1:95741de3af260a92cc5c7f3f3061e85273f5a81b5db20d4bd68da74bd521675e"
@@ -142,11 +145,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:38f553aff0273ad6f367cb0a0f8b6eecbaef8dc6cb8b50e57b6a81c1d5b1e332"
+  digest = "1:fde12c4da6237363bf36b81b59aa36a43d28061167ec4acb0d41fc49464e28b9"
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
   pruneopts = "UT"
-  revision = "64072686203f69e3fd20143576b27200f18ab0fa"
+  revision = "74369b46fc6756741c016591724fd1cb8e26845f"
 
 [[projects]]
   branch = "master"
@@ -161,18 +164,18 @@
     "trace",
   ]
   pruneopts = "UT"
-  revision = "ed066c81e75eba56dd9bd2139ade88125b855585"
+  revision = "3a22650c66bd7f4fb6d1e8072ffd7b75c8a27898"
 
 [[projects]]
   branch = "master"
-  digest = "1:9d6fee48d0bab077ed9cc08f69e902615f02b3e30f945334bdf902abb9e2af7c"
+  digest = "1:0d703f14f9bbbe1070ff0ce86d749dcbc9d68fb0ae554252c09bd4bb37a072e7"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "054c452bb702e465e95ce8e7a3d9a6cf0cd1188d"
+  revision = "d0b11bdaac8adb652bff00e49bcacf992835621a"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
@@ -203,7 +206,7 @@
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "8819c946db4494a2259bf100a377f51aa585d893"
+  revision = "bd968387e4aa590b3c6e4ba38ecac1ed314d43ad"
 
 [[projects]]
   digest = "1:9ab5a33d8cb5c120602a34d2e985ce17956a4e8c2edce7e6961568f95e40c09a"

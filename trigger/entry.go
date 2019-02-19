@@ -13,7 +13,9 @@ const tick = 3
 
 func QueryTrigger() error {
 
-	var triggers []*model.Trigger
+	//var triggers []*model.Trigger
+
+	triggers := make(map[*model.Trigger]bool)
 
 	t := model.Trigger{
 		Enable: true,
@@ -26,7 +28,8 @@ func QueryTrigger() error {
 
 	for _, t := range _triggers {
 		logrus.WithFields(logrus.Fields{"name": t.Name, "parallel": t.Parallel}).Info(model.MODULENAME)
-		triggers = append(triggers, &t)
+		//triggers = append(triggers, &t)
+		triggers[&t] = t.Enable
 	}
 
 	var ticker = time.NewTicker(tick * time.Second)
@@ -36,28 +39,42 @@ func QueryTrigger() error {
 		select {
 		case <-ticker.C:
 			now += tick
-			for _, t := range triggers {
-				if now >= t.NextTime {
-					t.NextTime = now + int64(t.Interval)
-					if err := execut(t); err != nil {
-						logrus.WithFields(logrus.Fields{"trigger-error": err}).Error(model.MODULENAME)
-					}
-					if err := service.UpdateTriggerNextTime(t.Name, t.NextTime); err != nil {
-						logrus.WithFields(logrus.Fields{"update-next-time-error": err}).Error(model.MODULENAME)
+			for t, enable := range triggers {
+				logrus.WithFields(logrus.Fields{"name": t.Name, "enable": t.Enable}).Info(model.MODULENAME)
+				if enable {
+					if now >= t.NextTime {
+						t.NextTime = now + int64(t.Interval)
+						if err := execut(t); err != nil {
+							logrus.WithFields(logrus.Fields{"trigger-error": err}).Error(model.MODULENAME)
+						}
+						if err := service.UpdateTriggerNextTime(t.Name, t.NextTime); err != nil {
+							logrus.WithFields(logrus.Fields{"update-next-time-error": err}).Error(model.MODULENAME)
+						}
 					}
 				}
 			}
 		case id := <-util.GetTriggerChan():
+			logrus.WithFields(logrus.Fields{"Action": "Reload"}).Info(model.MODULENAME)
 			t := model.Trigger{
 				ID: id,
 			}
-			err := db.FindSpecifyTrigger(&t)
+			err := db.FindSpecifyTrigger(&t, []string{"_id"})
 			if err != nil {
 				logrus.WithFields(logrus.Fields{"Query-Trigger-Error": err}).Error(model.MODULENAME)
 				continue
 			}
 
-			triggers = append(triggers, &t)
+			logrus.WithFields(logrus.Fields{"new trigger": t}).Info(model.MODULENAME)
+			for _t, _ := range triggers {
+				if _t.ID == t.ID {
+					//更新旧数据
+					delete(triggers, _t)
+					break
+				}
+			}
+
+			triggers[&t] = t.Enable
+			//triggers = append(triggers, &t)
 		}
 	}
 }

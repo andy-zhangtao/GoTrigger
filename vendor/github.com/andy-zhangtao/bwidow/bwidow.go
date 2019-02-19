@@ -47,6 +47,8 @@ const (
 const (
 	//DRIVER_MONGO Mongo驱动
 	DRIVER_MONGO = iota
+	//DRIVER_PQ  Postgresql驱动
+	DRIVER_PQ
 )
 
 func init() {
@@ -60,14 +62,15 @@ type BWDriver interface {
 	Map(u interface{}, name string)
 	checkIndex(u interface{}) error
 	first(uPtr interface{}) error
-	findOne(uPtr interface{}) error
-	findAll(uPtr interface{}, aPtr interface{}) error
-	findAllWithSort(uPtr interface{}, aArray interface{}, sortField []string) error
+	findOne(uPtr interface{}, fields ...string) error
+	findAll(uPtr interface{}, aPtr interface{}, fields ...string) error
+	findAllWithSort(uPtr interface{}, aArray interface{}, sortField []string, fields ...string) error
 	save(u interface{}) error
 	saveAll(uArray []interface{}) error
 	update(uPtr interface{}, field []string) (int, error)
 	delete(uPtr interface{}, field []string) (int, error)
 	deleteAll(uPtr interface{}) (int, error)
+	count(uPtr interface{}) (int, error)
 }
 
 type BW struct {
@@ -111,6 +114,14 @@ func (this *BW) Driver(driver int) (*BW) {
 		}
 		Widow.driver = DRIVER_MONGO
 		Widow.client[DRIVER_MONGO] = &bm
+	case DRIVER_PQ:
+		bq := BWPostgresql{}
+		if err := bq.DriverInit(); err != nil {
+			this.err = err
+		}
+
+		Widow.driver = DRIVER_PQ
+		Widow.client[DRIVER_PQ] = &bq
 	}
 
 	return this
@@ -170,8 +181,8 @@ func (this *BW) Map(u interface{}, name string) (*BW) {
 	}
 ```
 */
-func (this *BW) FindOne(uPtr interface{}) (err error) {
-	return this.client[this.driver].findOne(uPtr)
+func (this *BW) FindOne(uPtr interface{}, fields ...string) (err error) {
+	return this.client[this.driver].findOne(uPtr, fields...)
 }
 
 //FindAll 通过u的字段查询所有数据
@@ -198,8 +209,8 @@ func (this *BW) FindOne(uPtr interface{}) (err error) {
 ```
 
 */
-func (this *BW) FindAll(u interface{}, aPtr interface{}) (err error) {
-	return this.client[this.driver].findAll(u, aPtr)
+func (this *BW) FindAll(u interface{}, aPtr interface{}, fields ...string) (err error) {
+	return this.client[this.driver].findAll(u, aPtr, fields...)
 }
 
 //FindAllWithSort 通过u的字段查询所有数据并且按照给定的条件进行排序
@@ -224,8 +235,8 @@ func (this *BW) FindAll(u interface{}, aPtr interface{}) (err error) {
 	logrus.WithFields(logrus.Fields{"FindAllWithSort": allUser}).Info(ModuleName)
 ```
 */
-func (this *BW) FindAllWithSort(uPtr interface{}, aArray interface{}, sortField []string) (err error) {
-	return this.client[this.driver].findAllWithSort(uPtr, aArray, sortField)
+func (this *BW) FindAllWithSort(uPtr interface{}, aArray interface{}, sortField []string, fields ...string) (err error) {
+	return this.client[this.driver].findAllWithSort(uPtr, aArray, sortField, fields...)
 }
 
 //Save 插入单条数据
@@ -400,4 +411,12 @@ func (this *BW) Version() (string) {
 //Error 返回当前Error信息
 func (this *BW) Error() (error) {
 	return this.err
+}
+
+//Count 返回指定数据表当前所有数据量
+/*
+
+ */
+func (this *BW) Count(uPtr interface{}) (int, error) {
+	return this.client[this.driver].count(uPtr)
 }

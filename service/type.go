@@ -51,7 +51,7 @@ var Trigger = graphql.NewObject(graphql.ObjectConfig{
 			},
 		},
 		"enable": &graphql.Field{
-			Type: graphql.String,
+			Type: graphql.Boolean,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				if t, ok := p.Source.(model.Trigger); ok {
 					return t.Enable, nil

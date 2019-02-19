@@ -106,6 +106,7 @@ var rootDevexQuery = graphql.NewObject(graphql.ObjectConfig{
 var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 	Name: "RootMutation",
 	Fields: graphql.Fields{
+		"enableTrigger":    UpdateTriggerEnable,
 		"addTrigger":       AddTrigger,
 		"delTrigger":       DelTrigger,
 		"addTriggerPlugin": AddTriggerPlugin,

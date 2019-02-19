@@ -57,29 +57,51 @@ func (this *BWMongo) first(u interface{}) (err error) {
 	return this.db.C(this.tableMap[getTypeName(u)]).Find(nil).One(u)
 }
 
-func (this *BWMongo) findOne(u interface{}) (err error) {
+func (this *BWMongo) findOne(u interface{}, fields ...string) (err error) {
 	this.setDB()
 	defer this.db.Session.Close()
 
 	m := zReflect.ReflectStructInfo(u)
 
-	return this.db.C(this.tableMap[getTypeName(u)]).Find(bson.M(m)).One(u)
+	uStruct := make(map[string]interface{})
+
+	if len(fields) == 0 {
+		uStruct = m
+	} else {
+		for _, f := range fields {
+			uStruct[f] = m[f]
+		}
+	}
+
+	return this.db.C(this.tableMap[getTypeName(u)]).Find(bson.M(uStruct)).One(u)
 }
 
-func (this *BWMongo) findAll(u interface{}, a interface{}) (err error) {
+func (this *BWMongo) findAll(u interface{}, a interface{}, fields ...string) (err error) {
 	this.setDB()
 	defer this.db.Session.Close()
 
 	m := zReflect.ReflectStructInfo(u)
+
+	if len(fields) > 0 {
+		for _, f := range fields {
+			delete(m, f)
+		}
+	}
 
 	return this.db.C(this.tableMap[getTypeName(u)]).Find(bson.M(m)).All(a)
 }
 
-func (this *BWMongo) findAllWithSort(u interface{}, a interface{}, sortField []string) (err error) {
+func (this *BWMongo) findAllWithSort(u interface{}, a interface{}, sortField []string, fields ...string) (err error) {
 	this.setDB()
 	defer this.db.Session.Close()
 
 	m := zReflect.ReflectStructInfo(u)
+
+	if len(fields) > 0 {
+		for _, f := range fields {
+			delete(m, f)
+		}
+	}
 
 	return this.db.C(this.tableMap[getTypeName(u)]).Find(bson.M(m)).Sort(sortField...).All(a)
 }
@@ -275,4 +297,11 @@ func (this *BWMongo) checkIndex(uPtr interface{}) (err error) {
 	}
 
 	return
+}
+
+func (this *BWMongo) count(uPtr interface{}) (int, error) {
+	this.setDB()
+	defer this.db.Session.Close()
+
+	return this.db.C(this.tableMap[getTypeName(uPtr)]).Count()
 }

@@ -36,6 +36,7 @@ func DisableTrigger(name string) error {
 		Enable: false,
 	}
 
+	//logrus.WithFields(logrus.Fields{"trigger": t}).Info(model.MODULENAME)
 	return db.UpdateTrigger(&t, []string{
 		"name",
 	})
@@ -54,7 +55,7 @@ func EnableTrigger(name string) error {
 
 func FindSpecifyTrigger(name string) (trigger model.Trigger, err error) {
 	trigger.Name = name
-	err = db.FindSpecifyTrigger(&trigger)
+	err = db.FindSpecifyTrigger(&trigger, []string{"name"})
 	return
 }
 

@@ -25,12 +25,17 @@ func DeleteTrigger(tPtr *model.Trigger, filter []string) (err error) {
 	return
 }
 
-func FindSpecifyTrigger(tPtr *model.Trigger) (err error) {
-	return bw.FindOne(tPtr)
+func DeleteAllTrigger(tPtr *model.Trigger) (err error) {
+	_, err = bw.DeleteAll(tPtr)
+	return
+}
+
+func FindSpecifyTrigger(tPtr *model.Trigger, filter []string) (err error) {
+	return bw.FindOne(tPtr, filter...)
 }
 
 func FindSpecifyAllTrigger(tPtr *model.Trigger) (allTriggers []model.Trigger, err error) {
-	err = bw.FindAll(tPtr, &allTriggers)
+	err = bw.FindAll(tPtr, &allTriggers, "async", "enable")
 
 	return
 }
