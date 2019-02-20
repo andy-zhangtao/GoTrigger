@@ -1,5 +1,5 @@
 
-.PHONY: build
+.PHONY: test build
 name = gotrigger
 version = 0.1.0
 
@@ -13,10 +13,10 @@ test: *.go *.md
 	docker rm -f mongo ; echo
 	docker run -d --name mongo -p 1301:27017 mongo:3.4
 	sleep 5
-	export BW_ENV_MONGO_ENDPOINT=127.0.0.1:1301; export BW_ENV_MONGO_DB=trigger; go test -v ./...
+	export BW_ENV_MONGO_ENDPOINT=127.0.0.1:1301; export BW_ENV_MONGO_DB=trigger; go test -cover -v ./...
 	docker rm -f mongo
 
-release: *.go *.md
+release: test
 	docker run -it --rm --name golang -v $$PWD:/go/src/github.com/andy-zhangtao/GoTrigger vikings/golang-onbuild /go/src/github.com/andy-zhangtao/GoTrigger gotrigger
 	docker build -t vikings/$(name):$(version) .
 	docker push vikings/$(name):$(version)

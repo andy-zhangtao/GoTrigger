@@ -8,6 +8,9 @@ import (
 )
 
 func TestSaveTrigger(t *testing.T) {
+
+	DeleteAllTrigger(new(model.Trigger))
+	
 	tr := model.Trigger{
 		ID:       bson.NewObjectId(),
 		Name:     "first",

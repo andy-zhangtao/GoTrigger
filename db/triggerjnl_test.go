@@ -8,6 +8,8 @@ import (
 )
 
 func TestSaveTriggerJnl(t *testing.T) {
+	DeleteAllTriggerJnl(new(model.TriggerJnl))
+
 	err := SaveTriggerJnl(model.TriggerJnl{
 		ID:     bson.NewObjectId(),
 		Name:   "first",

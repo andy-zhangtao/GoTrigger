@@ -383,12 +383,18 @@ func (this *BWPostgresql) saveAll(uArray []interface{}) error {
 	}
 	return nil
 }
-func (this *BWPostgresql) update(uPtr interface{}, field []string) (int, error) {
+func (this *BWPostgresql) update(uPtr interface{}, field []string, expect ...string) (int, error) {
 
 	table := this.tableMap[getTypeName(uPtr)]
 	var filters []string
 	var updates []string
 	uStruct := zReflect.ReflectStructInfoWithTag(uPtr, false, "pq")
+
+	if len(expect) > 0 {
+		for _, e := range expect {
+			delete(uStruct, e)
+		}
+	}
 
 	if len(field) > 0 {
 		for _, f := range field {

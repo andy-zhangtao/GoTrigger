@@ -21,3 +21,8 @@ func FetchAllTriggerJnl() (allTriggerJnl []model.TriggerJnl, err error) {
 	err = bw.FindAllWithSort(new(model.TriggerJnl), &allTriggerJnl, []string{"-time"})
 	return
 }
+
+func DeleteAllTriggerJnl(jnlPtr *model.TriggerJnl) (err error) {
+	_, err = bw.DeleteAll(jnlPtr)
+	return
+}

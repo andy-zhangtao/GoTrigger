@@ -27,7 +27,7 @@ func UpdateTriggerNextTime(name string, next int64) error {
 	logrus.WithFields(logrus.Fields{"name": t.Name, "nextime": t.NextTime}).Info(model.MODULENAME)
 	return db.UpdateTrigger(&t, []string{
 		"name",
-	})
+	}, "enable", "async")
 }
 
 func DisableTrigger(name string) error {
@@ -39,7 +39,7 @@ func DisableTrigger(name string) error {
 	//logrus.WithFields(logrus.Fields{"trigger": t}).Info(model.MODULENAME)
 	return db.UpdateTrigger(&t, []string{
 		"name",
-	})
+	}, "async")
 }
 
 func EnableTrigger(name string) error {
@@ -50,7 +50,7 @@ func EnableTrigger(name string) error {
 
 	return db.UpdateTrigger(&t, []string{
 		"name",
-	})
+	}, "async")
 }
 
 func FindSpecifyTrigger(name string) (trigger model.Trigger, err error) {

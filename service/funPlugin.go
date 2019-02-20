@@ -70,3 +70,30 @@ var DelTriggerPlugin = &graphql.Field{
 		return "ok", DeleteSpecifyPlugin(name)
 	},
 }
+
+var UpdateTriggerPlugin = &graphql.Field{
+	Type:        graphql.String,
+	Description: "update trigger plugin",
+	Args: graphql.FieldConfigArgument{
+		"name": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+		"endpoint": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+		"desc": &graphql.ArgumentConfig{
+			Type: graphql.String,
+		},
+	},
+	Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
+		name, _ := p.Args["name"].(string)
+		desc, _ := p.Args["desc"].(string)
+		endpoint, _ := p.Args["endpoint"].(string)
+
+		return "ok", UpdateSpecifyPlugin(model.TriggerPlugin{
+			Name:     name,
+			Desc:     desc,
+			Endpoint: endpoint,
+		})
+	},
+}

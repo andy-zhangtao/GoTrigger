@@ -123,12 +123,17 @@ func (this *BWMongo) saveAll(u []interface{}) (err error) {
 	return
 }
 
-func (this *BWMongo) update(uPtr interface{}, field []string) (num int, err error) {
+func (this *BWMongo) update(uPtr interface{}, field []string, expect ...string) (num int, err error) {
 	this.setDB()
 	defer this.db.Session.Close()
 
 	m := zReflect.ReflectStructInfo(uPtr)
 
+	if len(expect) > 0 {
+		for _, e := range expect {
+			delete(m, e)
+		}
+	}
 	nm := make(map[string]interface{})
 
 	for _, f := range field {

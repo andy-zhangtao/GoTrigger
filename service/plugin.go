@@ -27,3 +27,9 @@ func DeleteSpecifyPlugin(name string) (err error) {
 		Name: name,
 	})
 }
+
+func UpdateSpecifyPlugin(plugin model.TriggerPlugin) (err error) {
+	return db.UpdateSpecifyTriggerPlugin(&plugin, []string{
+		"name",
+	})
+}

@@ -67,7 +67,7 @@ type BWDriver interface {
 	findAllWithSort(uPtr interface{}, aArray interface{}, sortField []string, fields ...string) error
 	save(u interface{}) error
 	saveAll(uArray []interface{}) error
-	update(uPtr interface{}, field []string) (int, error)
+	update(uPtr interface{}, field []string, expect ...string) (int, error)
 	delete(uPtr interface{}, field []string) (int, error)
 	deleteAll(uPtr interface{}) (int, error)
 	count(uPtr interface{}) (int, error)
@@ -321,8 +321,8 @@ func (this *BW) SaveAll(uArray interface{}) (err error) {
 	logrus.WithFields(logrus.Fields{"change": num}).Info(ModuleName)
 ```
 */
-func (this *BW) Update(uPtr interface{}, field []string) (num int, err error) {
-	return this.client[this.driver].update(uPtr, field)
+func (this *BW) Update(uPtr interface{}, field []string, expect ...string) (num int, err error) {
+	return this.client[this.driver].update(uPtr, field, expect...)
 }
 
 //Delete 删除命中的所有数据

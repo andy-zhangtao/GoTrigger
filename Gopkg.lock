@@ -3,22 +3,22 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:9ed4d1d8fcf2f660968ba13fa78a54740965eeb08fbefeb75b9495a8f4dd14fc"
+  digest = "1:d4a14c9491a587ecc98157765b6c4a4107160777fe83a93e29d5ac1a50457f8d"
   name = "github.com/andy-zhangtao/bwidow"
   packages = ["."]
   pruneopts = "UT"
-  revision = "d667ba3af80afcb7be985fba2e7d890166909fde"
+  revision = "023b135b82ac156257286781fbb92cc194309a20"
 
 [[projects]]
   branch = "master"
-  digest = "1:a22217b2af13cf408a7f6b8af17806ac9d14dd1daeeb13f507d18a1601e94a57"
+  digest = "1:368332c0d53b2ad73a45c96c9f4bbf829b9573ead812e4015300c538441a7d0c"
   name = "github.com/andy-zhangtao/gogather"
   packages = [
     "time",
     "zReflect",
   ]
   pruneopts = "UT"
-  revision = "6be846ebaaa2f8635c625681c5131f2827d00932"
+  revision = "b636ead41f298f471343b95ae4e65d70dec0ae6a"
 
 [[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
@@ -149,7 +149,7 @@
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
   pruneopts = "UT"
-  revision = "74369b46fc6756741c016591724fd1cb8e26845f"
+  revision = "a4c6cb3142f211c99e4bf4cd769535b29a9b616f"
 
 [[projects]]
   branch = "master"
@@ -175,7 +175,7 @@
     "windows",
   ]
   pruneopts = "UT"
-  revision = "d0b11bdaac8adb652bff00e49bcacf992835621a"
+  revision = "90b0e4468f9980bf79a2290394adaf7f045c5d24"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
@@ -206,7 +206,7 @@
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "bd968387e4aa590b3c6e4ba38ecac1ed314d43ad"
+  revision = "082222b4a5c572e33e82ee9162d1352c7cf38682"
 
 [[projects]]
   digest = "1:9ab5a33d8cb5c120602a34d2e985ce17956a4e8c2edce7e6961568f95e40c09a"

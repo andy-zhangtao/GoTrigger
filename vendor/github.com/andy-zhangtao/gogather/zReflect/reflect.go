@@ -167,6 +167,7 @@ func parseStruct(u reflect.Type, v reflect.Value, allowEmpty bool, tag string, k
 						structInfo[k] = v
 					}
 				}
+
 			}
 		}
 	}
