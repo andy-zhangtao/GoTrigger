@@ -39,7 +39,7 @@ type TriggerPlugin struct {
 type PluginType struct {
 	ID   bson.ObjectId `json:"_id" bson:"_id" bw:"_id"`
 	Name string        `json:"name" bson:"name"`
-	PID  int           `json:"pid" bson:"pid"`
+	PID  int           `json:"pid" bson:"pid" bw:"pid"`
 	Desc string        `json:"desc" bson:"desc"`
 }
 

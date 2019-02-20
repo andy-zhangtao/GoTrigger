@@ -157,6 +157,20 @@ var TriggerPlugin = graphql.NewObject(graphql.ObjectConfig{
 				return nil, nil
 			},
 		},
+		"kind": &graphql.Field{
+			Type: PluginKind,
+			Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
+				if t, ok := p.Source.(model.TriggerPlugin); ok {
+					kind, err := FindSpecifyPluginKind(t.PID)
+					if err != nil {
+						return nil, err
+					}
+
+					return kind, nil
+				}
+				return nil, nil
+			},
+		},
 	},
 })
 
