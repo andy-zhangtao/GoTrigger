@@ -13,8 +13,6 @@ const tick = 3
 
 func QueryTrigger() error {
 
-	//var triggers []*model.Trigger
-
 	triggers := make(map[*model.Trigger]bool)
 
 	t := model.Trigger{
@@ -28,7 +26,6 @@ func QueryTrigger() error {
 
 	for _, t := range _triggers {
 		logrus.WithFields(logrus.Fields{"name": t.Name, "parallel": t.Parallel}).Info(model.MODULENAME)
-		//triggers = append(triggers, &t)
 		triggers[&t] = t.Enable
 	}
 
@@ -74,7 +71,11 @@ func QueryTrigger() error {
 			}
 
 			triggers[&t] = t.Enable
-			//triggers = append(triggers, &t)
+
+		case t := <-util.GetFireChan():
+			if err := execut(&t); err != nil {
+				logrus.WithFields(logrus.Fields{"trigger-error": err}).Error(model.MODULENAME)
+			}
 		}
 	}
 }

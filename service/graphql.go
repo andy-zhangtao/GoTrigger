@@ -114,5 +114,6 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 		"delTriggerPlugin":    DelTriggerPlugin,
 		"updateTriggerPlugin": UpdateTriggerPlugin,
 		"delTriggerJnl":       DeleteTriggerJnl,
+		"fireTrigger":         TriggerFire,
 	},
 })

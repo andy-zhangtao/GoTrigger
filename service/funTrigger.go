@@ -7,6 +7,28 @@ import (
 	"strings"
 )
 
+var TriggerFire = &graphql.Field{
+	Type:        graphql.String,
+	Description: "Fire a trigger",
+	Args: graphql.FieldConfigArgument{
+		"name": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+	},
+	Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
+		name, _ := p.Args["name"].(string)
+
+		t, err := FindSpecifyTrigger(name)
+		if err != nil {
+			return err.Error(), err
+		}
+
+		util.GetFireChan() <- t
+
+		return "ok", nil
+	},
+}
+
 var UpdateTriggerEnable = &graphql.Field{
 	Type:        graphql.String,
 	Description: "Enable / Disable specify trigger",
