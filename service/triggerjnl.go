@@ -19,3 +19,7 @@ func QueryAllTriggerJnl() (jnl []model.TriggerJnl, err error) {
 
 	return db.FetchAllTriggerJnl()
 }
+
+func DeleteALlTriggerJnl() (err error) {
+	return db.DeleteAllTriggerJnl(new(model.TriggerJnl))
+}

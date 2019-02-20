@@ -15,6 +15,18 @@ var QueryTriggerJnl = &graphql.Field{
 	},
 }
 
+var DeleteTriggerJnl = &graphql.Field{
+	Type:        graphql.String,
+	Description: "delete all trigger jnl",
+	Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
+		if err := DeleteALlTriggerJnl(); err != nil {
+			return err.Error(), err
+		}
+
+		return "ok", nil
+	},
+}
+
 var QueryPluginKind = &graphql.Field{
 	Type:        graphql.NewList(PluginKind),
 	Description: "query plugin info",
@@ -55,5 +67,3 @@ var AddPluginKind = &graphql.Field{
 		})
 	},
 }
-
-
