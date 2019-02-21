@@ -67,3 +67,36 @@ var AddPluginKind = &graphql.Field{
 		})
 	},
 }
+
+var UpdatePluginKind = &graphql.Field{
+	Type:        graphql.String,
+	Description: "Update specify plugin kind",
+	Args: graphql.FieldConfigArgument{
+		"name": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+		"desc": &graphql.ArgumentConfig{
+			Type: graphql.String,
+		},
+		"pid": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.Int),
+		},
+	},
+	Resolve: func(p graphql.ResolveParams) (i interface{}, e error) {
+		pid, _ := p.Args["pid"].(int)
+		name, _ := p.Args["name"].(string)
+		desc, _ := p.Args["desc"].(string)
+
+		err := UpdateSpecifyPluginKind(model.PluginType{
+			PID:  pid,
+			Name: name,
+			Desc: desc,
+		})
+
+		if err != nil {
+			return nil, err
+		}
+
+		return "ok", nil
+	},
+}

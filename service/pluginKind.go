@@ -29,3 +29,7 @@ func FindSpecifyPluginKind(id int) (kind model.PluginType, err error) {
 func DeleteAllPluginKind() (err error) {
 	return db.DeleteAllPluginType()
 }
+
+func UpdateSpecifyPluginKind(plugin model.PluginType) (err error) {
+	return db.UpdatePluginType(&plugin, []string{"pid"})
+}

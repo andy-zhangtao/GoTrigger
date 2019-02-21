@@ -39,6 +39,15 @@ func TestFindSpecifyPluginKind(t *testing.T) {
 	assert.Equal(t, "A new http kind", kind.Desc)
 }
 
+func TestUpdatePluginKind(t *testing.T) {
+	err := UpdateSpecifyPluginKind(model.PluginType{
+		PID:  20,
+		Name: "newHttp2",
+	})
+
+	assert.Nil(t, err)
+}
+
 func TestFindAllPluginKind(t *testing.T) {
 	ks, err := FindAllPluginKind()
 	assert.Nil(t, err)
@@ -48,15 +57,15 @@ func TestFindAllPluginKind(t *testing.T) {
 		assert.Equal(t, "http1", ks[0].Name)
 		assert.Equal(t, "A new http kind", ks[0].Desc)
 	} else {
-		assert.Equal(t, "http2", ks[1].Name)
+		assert.Equal(t, "newHttp2", ks[1].Name)
 		assert.Equal(t, "A new http kind 2", ks[1].Desc)
 	}
 }
-//
-//func TestDeleteAllPluginKind(t *testing.T) {
-//	err := DeleteAllPluginKind()
-//	assert.Nil(t, err)
-//	ks, err := FindAllPluginKind()
-//	assert.Nil(t, err)
-//	assert.Equal(t, 0, len(ks))
-//}
+
+func TestDeleteAllPluginKind(t *testing.T) {
+	err := DeleteAllPluginKind()
+	assert.Nil(t, err)
+	ks, err := FindAllPluginKind()
+	assert.Nil(t, err)
+	assert.Equal(t, 0, len(ks))
+}
