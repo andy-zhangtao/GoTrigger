@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"github.com/andy-zhangtao/GoTrigger/model"
 	"github.com/graphql-go/graphql"
 	"strconv"
@@ -105,6 +106,20 @@ var Trigger = graphql.NewObject(graphql.ObjectConfig{
 		//		return nil, nil
 		//	},
 		//},
+		"ext": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				if t, ok := p.Source.(model.Trigger); ok {
+					var result string
+					for key, value := range t.Type.Ext {
+						result = fmt.Sprintf("%s %s=%s ", result, key, value)
+					}
+					return result, nil
+				}
+
+				return nil, nil
+			},
+		},
 		"create_time": &graphql.Field{
 			Type: graphql.String,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {

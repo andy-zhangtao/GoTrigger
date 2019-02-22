@@ -21,5 +21,10 @@ release: test
 	docker build -t vikings/$(name):$(version) .
 	docker push vikings/$(name):$(version)
 
-plugin: plugin/*/*.go
+plugin-http: plugin/http/*.go
 	cd plugin/http; make release
+
+plugin-nsq: plugin/nsq/*.go
+	cd plugin/nsq; make release
+
+plugin: plugin-http plugin-nsq

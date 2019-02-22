@@ -150,6 +150,9 @@ var AddTrigger = &graphql.Field{
 		"endpoint": &graphql.ArgumentConfig{
 			Type: graphql.NewNonNull(graphql.String),
 		},
+		"ext": &graphql.ArgumentConfig{
+			Type: graphql.String,
+		},
 	},
 	Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 
@@ -161,6 +164,8 @@ var AddTrigger = &graphql.Field{
 
 		kind, _ := p.Args["kind"].(int)
 		endpoint, _ := p.Args["endpoint"].(string)
+
+		ext, _ := p.Args["ext"].(string)
 
 		if parallel == 0 {
 			parallel = 1
@@ -175,6 +180,19 @@ var AddTrigger = &graphql.Field{
 			return nil, err
 		}
 
+		extParam := make(map[string]string)
+		if ext != "" {
+			ep := strings.Split(ext, "|+|")
+			for _, e := range ep {
+				m := strings.Split(e, "=")
+				if len(m) > 1 {
+					extParam[m[0]] = m[1]
+				} else {
+					extParam[m[0]] = ""
+				}
+			}
+		}
+
 		t := model.Trigger{
 			Name:     name,
 			Enable:   enable,
@@ -185,6 +203,7 @@ var AddTrigger = &graphql.Field{
 			Type: model.TriggerType{
 				Kind:     kind,
 				Endpoint: endpoint,
+				Ext:      extParam,
 			},
 		}
 
