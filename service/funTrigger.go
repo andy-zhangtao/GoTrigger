@@ -207,6 +207,18 @@ var AddTrigger = &graphql.Field{
 			},
 		}
 
+		if _t, err := FindSpecifyTrigger(t.Name); err != nil {
+			return nil, err
+		} else if _t.ID != "" {
+			//	update this trigger
+			if err := UpdateTrigger(t); err != nil{
+				return nil, err
+			}else{
+				util.GetTriggerChan() <- t.ID
+				return t, nil
+			}
+		}
+
 		if t, err = AddNewTrigger(t); err != nil {
 			return t, err
 		}

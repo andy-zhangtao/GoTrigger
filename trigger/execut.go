@@ -44,7 +44,7 @@ func execut(t *model.Trigger) (err error) {
 		return err
 	}
 
-	if _, err := invokeHttp(t, ptr); err != nil {
+	if _, err := invokeGrpc(t, ptr); err != nil {
 		return err
 	}
 
@@ -52,7 +52,7 @@ func execut(t *model.Trigger) (err error) {
 	return nil
 }
 
-func invokeHttp(t *model.Trigger, ptr model.TriggerPlugin) (succ bool, err error) {
+func invokeGrpc(t *model.Trigger, ptr model.TriggerPlugin) (succ bool, err error) {
 
 	conn, err := grpc.Dial(ptr.Endpoint, grpc.WithInsecure())
 	if err != nil {

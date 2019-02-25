@@ -18,6 +18,12 @@ func DeleTrigger(name string) error {
 	}, []string{"name"})
 }
 
+func UpdateTrigger(trigger model.Trigger) (err error) {
+	return db.UpdateTrigger(&trigger, []string{
+		"name",
+	}, "enable", "async")
+}
+
 func UpdateTriggerNextTime(name string, next int64) error {
 	t := model.Trigger{
 		Name:     name,

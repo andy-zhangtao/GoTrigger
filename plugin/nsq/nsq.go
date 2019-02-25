@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	pb "github.com/andy-zhangtao/GoTrigger/pb/v1/plugin"
+	"github.com/andy-zhangtao/gogather/time"
 	"github.com/nsqio/go-nsq"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
@@ -37,6 +38,15 @@ func (h nsqPlugin) Invoke(t context.Context, p *pb.Trigger) (*pb.Response, error
 
 	if m, ok := p.Ext["message"]; ok {
 		message = m
+	} else {
+		// give me default date (YYYYMMDDThh:mm:ss)
+		zt := time.Ztime{}
+		date, err := zt.Format("YYYYMMDDThh:mm:ss")
+		if err != nil {
+			message = ""
+		} else {
+			message = date
+		}
 	}
 
 	err := send(p.Endpoint, topic, message)
