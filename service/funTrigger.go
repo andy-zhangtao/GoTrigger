@@ -182,13 +182,13 @@ var AddTrigger = &graphql.Field{
 
 		extParam := make(map[string]string)
 		if ext != "" {
-			ep := strings.Split(ext, "|+|")
+			ep := strings.Split(strings.TrimSpace(ext), "|+|")
 			for _, e := range ep {
 				m := strings.Split(e, "=")
 				if len(m) > 1 {
-					extParam[m[0]] = m[1]
+					extParam[strings.TrimSpace(m[0])] = strings.TrimSpace(m[1])
 				} else {
-					extParam[m[0]] = ""
+					extParam[strings.TrimSpace(m[0])] = ""
 				}
 			}
 		}
@@ -211,10 +211,10 @@ var AddTrigger = &graphql.Field{
 			return nil, err
 		} else if _t.ID != "" {
 			//	update this trigger
-			if err := UpdateTrigger(t); err != nil{
+			if err := UpdateTrigger(t); err != nil {
 				return nil, err
-			}else{
-				util.GetTriggerChan() <- t.ID
+			} else {
+				util.GetTriggerChan() <- _t.ID
 				return t, nil
 			}
 		}
